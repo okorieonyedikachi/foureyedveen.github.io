@@ -1,7 +1,9 @@
 // import firebase from "firebase/app";
 // import "firebase/firestore";
 
-console.log(db);
+// const e = require("express");
+
+// console.log(db);
 
 db.collection('Memo-webApp').get().then((snapshot) => {
   console.log(snapshot.docs);
@@ -9,3 +11,32 @@ db.collection('Memo-webApp').get().then((snapshot) => {
    console.log(doc.data())
   })
  });
+
+const memoList = document.getElementById("memo-list");
+const form = document.getElementById("add-memo-form");
+
+function renderMemo(doc) {
+  let li = document.createElement("li");
+  let name = document.createElement("span");
+  let desc = document.createElement("span");
+  let cross = document.createElement("div");
+  let edit = document.createElement("span");
+  li.setAttribute("data-id", doc.id);
+  name.textContent = doc.data().name;
+  desc.textContent = doc.data().desc;
+  cross.textContent = "X";
+  li.appendChild(name);
+  li.appendChild(desc);
+  memoList.appendChild(li);
+}
+
+//saving data in firebase 
+form.addEventListener("sudmit", e => {
+  e.preventDefault();
+  db.collection("Memo-webApp").add({
+    name:form.name.value,
+    desc: form.desc.value
+  });
+  form.name.value = "";
+  form.desc.value = "";
+});
