@@ -68,12 +68,9 @@ body {
   li span {
     font-size: 16px;
     width: 100%;
-    /* white-space: nowrap; */
+    margin-top:10px;
     overflow-x: hidden;
     overflow-y: scroll;
-    /* text-overflow: ellipsis; */
-    /* overflow: auto; */
-    /* background-color: #88236f; */
   }
   
   li div {
