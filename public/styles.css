@@ -46,34 +46,35 @@ body {
     padding: 0;
   }
   
+  li > p {
+    font-weight: 600;
+  }
+
   li {
-    padding: 18px;
+    padding: 5px;
     background: #e2e1e1;
     font-size: 20px;
     color: #555;
     position: relative;
     border-bottom: 1px solid #e6e6e6;
-    height: 30px;
+    height: 60px;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+   
   }
   
   li span {
     font-size: 16px;
+    width: 100%;
+    /* white-space: nowrap; */
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* text-overflow: ellipsis; */
+    /* overflow: auto; */
+    /* background-color: #88236f; */
   }
-  /* li:nth-child(even) {
-    padding: 20px;
-    background: #f2f2f2;
-  }
-   */
-  
-  /* li span:nth-child() {
-    font-size: 16px;
-    margin-top: 6px;
-    color: #999;
-  } */
   
   li div {
     position: absolute;
@@ -81,11 +82,13 @@ body {
     right: 0px;
     background: rgba(255, 255, 255, 0.6);
     width: 30px;
-    height: 15px;
-    text-align: center;
+    height: 8px;
     padding: 10px 0;
     font-weight: bold;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   li div:hover {
