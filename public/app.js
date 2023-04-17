@@ -31,6 +31,21 @@ db.collection('Memo-webApp').get().then((snapshot) => {
 });
 
 //real time listener
+db.collection("Memo-webApp")
+.orderBy("desc")
+.onSnapshot(snapshot => {
+// We also rendered data in real-time using
+ let changes = snapshot.docChanges();
+ changes.forEach(change => {
+  if (change.type == "added") {
+  renderMemo(change.doc);
+ } else if (change.type == "removed") {
+ let li = memoList.querySelector("[data-id=" + change.doc.id + "]");
+ memoList.removeChild(li);
+  }
+ });
+});
+
 
 //saving data
 form.addEventListener("submit", e => {
@@ -46,7 +61,7 @@ form.addEventListener("submit", e => {
  });
 
  //getting data
- db.collection('memo').get().then((snapshot) => {
+ db.collection('Memo-webApp').get().then((snapshot) => {
   console.log(snapshot.docs);
   snapshot.docs.forEach(doc => {
     console.log(doc.data())
