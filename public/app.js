@@ -1,6 +1,8 @@
 const memoList = document.querySelector("#memo-list");
 const form = document.querySelector("#add-memo-form");
 
+
+
 db.collection('Memo-webApp').get().then((snapshot) => {
   console.log(snapshot.docs);
   snapshot.docs.forEach(doc => {
@@ -19,4 +21,13 @@ form.addEventListener("submit", e => {
   form.name.value = "";
   form.desc.value = "";
   alert("New memo added")
+ });
+
+ //getting data
+ db.collection('memo').get().then((snapshot) => {
+  console.log(snapshot.docs);
+  snapshot.docs.forEach(doc => {
+    console.log(doc.data())
+   })
+  
  });
