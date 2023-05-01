@@ -2,9 +2,9 @@ const memoList = document.querySelector("#memo-list");
 const form = document.querySelector("#add-memo-form");
 const button = document.querySelector("#button")
 let isEdit = false;
+button.innerHTML = isEdit ? "Edit Item" : "Add Item"
 
-
-// button.innerHTML = isEdit ? "Edit Item" : "Add Item"
+let id = null;
 
 function renderMemo(doc) {
   //diff elements
@@ -26,9 +26,10 @@ function renderMemo(doc) {
   memoList.appendChild(li);
   
   let isClicked = false;
-  li.addEventListener("click", function() {
-    isClicked = !isClicked
-
+  li.addEventListener("click", e => {
+    isClicked = !isClicked;
+    id = e.target.parentElement.getAttribute("data-id");
+    toggleBtn(id)
     // Regular Expression to find text inside p tag and span tag
     const str = li.innerHTML
     const pRegex = /<p>(.*?)<\/p>/;
@@ -39,8 +40,7 @@ function renderMemo(doc) {
     const spanMatch = str.match(spanRegex);
     const spanText = spanMatch ? spanMatch[1] : null;
     
-    // console.log("pText:", pText);
-    // console.log("spanText:", spanText);
+    
 
     form.name.value = pText;
     form.desc.value = spanText;
@@ -57,14 +57,6 @@ function renderMemo(doc) {
   });
 }
 
-
-db.collection('Memo-webApp').get().then((snapshot) => {
-  // console.log(snapshot.docs);
-  snapshot.docs.forEach(doc => {
-  //  console.log(doc.data())
-  })
-  
-});
 
 //real time listener
 db.collection("Memo-webApp")
@@ -83,42 +75,61 @@ db.collection("Memo-webApp")
 });
 
 // toggle Add-item btn and Edit-btn
- const editBtn = () => {
+ const toggleBtn = () => {
   isEdit = true;
   button.innerHTML = isEdit ? "Edit Item" : "Add Item";
+  
  }
- button.innerHTML = isEdit ? "Edit Item" : "Add Item";
+
 
 //saving data
 form.addEventListener("submit", e => {
-  //read this
-  e.preventDefault();
+ 
+  
   
   if (form.name.value.length > 0 && form.desc.value.length) {
-    db.collection("Memo-webApp").add({
+    e.preventDefault()
+    if (isEdit) {
+      console.log(id, 'ggggD')
+      const docRef = db.collection("Memo-webApp").doc(id);
+      console.log( {name: form.name.value,
+        desc: form.desc.value})
+        
+    // Update the document
+    docRef.update({
       name: form.name.value,
       desc: form.desc.value
-     }); 
-     form.name.value = "";
-     form.desc.value = "";
-     isEdit = false;
-     alert("New memo added")
+    })
+    
+    .then(() => {
+      location.reload();
+      alert("Edit successful")
+    })
+    .catch((error) => {
+      console.error("Error updating document: ", error);
+    });
+    }
+    else {
+      db.collection("Memo-webApp").add({
+        name: form.name.value,
+        desc: form.desc.value
+       }); 
+       form.name.value = "";
+       form.desc.value = "";
+       isEdit = false;
+       alert("New memo added")
+    }
+
+   
   }
   else {
-    alert("Inputs can not be empty, fill them and try again :(")
+    alert("Inputs can not be empty, fill them and try again")
 
   }
   
  });
 
- //getting data
- db.collection('Memo-webApp').get().then((snapshot) => {
-  // console.log(snapshot.docs);
-  snapshot.docs.forEach(doc => {
-   })
-  
- });
-
+ 
  
 
  
