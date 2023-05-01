@@ -94,8 +94,8 @@ form.addEventListener("submit", e => {
       const docRef = db.collection("Memo-webApp").doc(id);
       console.log( {name: form.name.value,
         desc: form.desc.value})
-        
-    // Update the document
+
+    // Update the document and editing the data
     docRef.update({
       name: form.name.value,
       desc: form.desc.value
